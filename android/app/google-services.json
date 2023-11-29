@@ -1,0 +1,126 @@
+{
+  "project_info": {
+    "project_number": "834602052606",
+    "project_id": "trucks-c05a8",
+    "storage_bucket": "trucks-c05a8.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:834602052606:android:b559af6f8f16b2db682eaf",
+        "android_client_info": {
+          "package_name": "com.android.application"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "834602052606-ng6nv9g7d285ohfplvrhboem3rmldefr.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB4M39W4hnZh7HRzJu65QXSvk-7Bt-rPCA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "834602052606-ng6nv9g7d285ohfplvrhboem3rmldefr.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:834602052606:android:4eafa8a067bdd8b4682eaf",
+        "android_client_info": {
+          "package_name": "com.android.truckV2"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "834602052606-ng6nv9g7d285ohfplvrhboem3rmldefr.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB4M39W4hnZh7HRzJu65QXSvk-7Bt-rPCA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "834602052606-ng6nv9g7d285ohfplvrhboem3rmldefr.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:834602052606:android:3ed2f2a40feeb21c682eaf",
+        "android_client_info": {
+          "package_name": "com.android.trucksMultitenant"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "834602052606-ng6nv9g7d285ohfplvrhboem3rmldefr.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB4M39W4hnZh7HRzJu65QXSvk-7Bt-rPCA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "834602052606-ng6nv9g7d285ohfplvrhboem3rmldefr.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:834602052606:android:63983b0be32f6a7a682eaf",
+        "android_client_info": {
+          "package_name": "com.example.trucks_manager"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "834602052606-ng6nv9g7d285ohfplvrhboem3rmldefr.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB4M39W4hnZh7HRzJu65QXSvk-7Bt-rPCA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "834602052606-ng6nv9g7d285ohfplvrhboem3rmldefr.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

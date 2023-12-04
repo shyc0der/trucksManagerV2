@@ -40,7 +40,7 @@ class _HomePageState extends State<HomePage>{
               height: 270,
               margin: const EdgeInsets.symmetric(horizontal:30 ,vertical: 20),
               decoration: BoxDecoration(
-                color: Color.fromARGB(255, 216, 235, 244),
+                color: const Color.fromARGB(255, 216, 235, 244),
                 borderRadius: BorderRadius.circular(15),
               )
             ),
@@ -154,7 +154,7 @@ Flexible(flex: 4,child: Container(),),
           onPressed: (){
             Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => LoginPage()),
+                  MaterialPageRoute(builder: (context) => const LoginPage()),
                 );
           },
           child:  Text("Log in" ,style: 
@@ -178,7 +178,7 @@ class FrontPage extends StatelessWidget{
    final String assetPath;
   @override
   Widget build(BuildContext context) {
-   return Container(
+   return SizedBox(
     height: 300,    
    child: Column(
     children: [

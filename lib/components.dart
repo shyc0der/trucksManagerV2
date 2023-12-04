@@ -37,8 +37,7 @@ class ItemListTile extends StatelessWidget {
       required this.amount,
       this.onTap,
       this.onDoubleTap,
-      Key? key})
-      : super(key: key);
+      super.key});
   final String title;
   final String orderNo;
   final DateTime dateTime;
@@ -96,7 +95,7 @@ class ItemListTile extends StatelessWidget {
              ),
            ),
            
-      Text(""),
+      const Text(""),
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           mainAxisSize: MainAxisSize.min,

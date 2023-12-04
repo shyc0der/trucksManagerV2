@@ -1,4 +1,3 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:truck_manager/components.dart';
 import 'package:truck_manager/pages/color.dart';
@@ -9,6 +8,8 @@ import 'package:truck_manager/pages/modules/tenantsModules.dart';
 import 'package:truck_manager/pages/orders/ordersPage.dart';
 
 class LoginPage extends StatefulWidget{
+  const LoginPage({super.key});
+
   @override
   State<LoginPage> createState() => _LoginPageState();
 
@@ -24,7 +25,7 @@ class _LoginPageState extends State<LoginPage>{
   late final TextEditingController emailController;
   late final TextEditingController passwordController;
   final TenantModules _tenantModules =TenantModules();
-TenantsModel tenantsModel =TenantsModel();
+TenantsModel? tenantsModel;
 
   void toggleObsecure(){
     setState(() {
@@ -149,8 +150,8 @@ StreamBuilder<List<TenantsModel>>(
   value: tenantsModel,
   onChanged: (TenantsModel? value) {
     setState(() {
-      tenantsModel = value ?? TenantsModel(); 
-      print(tenantsModel.asMap());// Set the new value for company
+      tenantsModel = value; 
+      print(tenantsModel?.asMap());// Set the new value for company
     });
   },
 );
@@ -211,7 +212,7 @@ StreamBuilder<List<TenantsModel>>(
                           await Navigator.push(
                               context,
                               MaterialPageRoute(
-                                  builder: ((context) =>  OrdersPage())));
+                                  builder: ((context) =>  const OrdersPage())));
                         }
                         if (res.body == 'user-not-found') {
                           setState(() {

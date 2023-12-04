@@ -11,6 +11,8 @@ import 'package:truck_manager/pages/vehicles/vehicleListPage.dart';
 
 
 class OrdersPage extends StatefulWidget {
+  const OrdersPage({super.key});
+
 
   @override
 

@@ -247,7 +247,7 @@ class _SignInPageState2 extends State<SignInPage2> {
               onPressed: () {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => SignInPage3()),
+                  MaterialPageRoute(builder: (context) => const SignInPage3()),
                 );
               },
               child: const Text(
@@ -390,7 +390,7 @@ class _SignInPageState3 extends State<SignInPage3> {
               onPressed: () {
           Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => WelcomePage()),
+                  MaterialPageRoute(builder: (context) => const WelcomePage()),
                 );
               },
               child: const Text(
@@ -408,6 +408,8 @@ class _SignInPageState3 extends State<SignInPage3> {
 }
 
 class WelcomePage extends StatelessWidget {
+  const WelcomePage({super.key});
+
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
@@ -461,7 +463,7 @@ class WelcomePage extends StatelessWidget {
             onPressed: (){
                Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (context) => LoginPage()),
+                    MaterialPageRoute(builder: (context) => const LoginPage()),
                   );
             },
             child: const Text("Start Using The App" ,style: 

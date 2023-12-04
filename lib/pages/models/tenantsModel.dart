@@ -39,4 +39,17 @@ class TenantsModel extends Model {
       'TenantId': tenantId,
     };
   }
+
+  @override
+  bool operator ==(Object other) {
+    if (other is TenantsModel) {
+      return id == other.id && name == other.name && database == other.database;
+    }
+    return false;
+  }
+
+  @override
+  int get hashCode => id.hashCode ^ name.hashCode ^ database.hashCode;
+
+
 }

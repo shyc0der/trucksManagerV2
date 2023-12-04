@@ -1,8 +1,11 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:truck_manager/components.dart';
 import 'package:truck_manager/pages/color.dart';
 import 'package:truck_manager/pages/models/fireBaseModel.dart';
 import 'package:truck_manager/pages/models/responseModel.dart';
+import 'package:truck_manager/pages/models/tenantsModel.dart';
+import 'package:truck_manager/pages/modules/tenantsModules.dart';
 import 'package:truck_manager/pages/orders/ordersPage.dart';
 
 class LoginPage extends StatefulWidget{
@@ -20,6 +23,8 @@ class _LoginPageState extends State<LoginPage>{
   final textFieldFocusNode =FocusNode();
   late final TextEditingController emailController;
   late final TextEditingController passwordController;
+  final TenantModules _tenantModules =TenantModules();
+TenantsModel tenantsModel =TenantsModel();
 
   void toggleObsecure(){
     setState(() {
@@ -112,8 +117,48 @@ class _LoginPageState extends State<LoginPage>{
                 ),
               ),
             ),
-           
-      
+          const SizedBox(height:30),
+      // Drop Down
+StreamBuilder<List<TenantsModel>>(
+  stream: _tenantModules.fetchAllTenants(), // Assuming this is your Stream<List<TenantsModel>>
+  builder: (context, AsyncSnapshot<List<TenantsModel>> snapshot) {
+
+    
+    if (snapshot.connectionState == ConnectionState.waiting) {
+      // The stream hasn't emitted data yet.
+      return const CircularProgressIndicator();
+    } else if (snapshot.hasError) {
+      // Handle errors from the stream.
+      return Text('Error: ${snapshot.error}');
+    } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
+      // The stream has emitted data, but it's empty.
+      return const Text('No tenants available.');
+    } else {
+    
+    
+      // The stream has emitted data, and it's not empty.
+      return
+      AppDropdownInput<TenantsModel?>(
+  hintText: "Please Select Your Company Below",
+  options: [TenantsModel(name: "",
+  database: "",
+  tenantId: "",
+  id: ""
+  ), ...snapshot.data!],
+  getLabel: (TenantsModel? tenant) => tenant!.name!,
+  value: tenantsModel,
+  onChanged: (TenantsModel? value) {
+    setState(() {
+      tenantsModel = value ?? TenantsModel(); 
+      print(tenantsModel.asMap());// Set the new value for company
+    });
+  },
+);
+
+       }
+  },
+),
+
             const SizedBox(height: 30,),
               const SizedBox(height: 20,),
              Text("I've forgotten my password",
@@ -153,7 +198,7 @@ class _LoginPageState extends State<LoginPage>{
           });          
          }
          final res = await FirebaseUserModule.login
-         (emailController.text, passwordController.text);
+         (emailController.text, passwordController.text , "DonnyEngineering-e6k08");
          await Future.delayed(const Duration(seconds: 4));
        if (res.status == ResponseType.success) {
                           // get user

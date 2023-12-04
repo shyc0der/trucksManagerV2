@@ -12,15 +12,14 @@ class FirebaseUserModule {
     return auth.userChanges();
   }
 
-
   static Future<ResponseModel> createUser(String email, String password) async {
     try {
       FirebaseApp app = await Firebase.initializeApp(
           name: 'Secondary', options: Firebase.app().options);
       FirebaseAuth _auth = FirebaseAuth.instanceFor(app: app);
 
-      UserCredential userCredential = await _auth
-          .createUserWithEmailAndPassword(email: email, password: password);
+      UserCredential userCredential = await (_auth ..tenantId= "")
+          .createUserWithEmailAndPassword(email: email, password: password) ;
 
       await app.delete();
 
@@ -38,10 +37,14 @@ class FirebaseUserModule {
     }
   }
 
-  static Future<ResponseModel> login(String email, String password) async {
+  static Future<ResponseModel> login(String email, String password ,String tenantsId ) async {
     try {
-      UserCredential userCredential = await auth.signInWithEmailAndPassword(
-          email: email, password: password);
+      UserCredential userCredential = await (auth ..tenantId = tenantsId).signInWithEmailAndPassword(
+          email: email, password: password, );
+
+          String? tenantId = userCredential.user?.tenantId;
+
+          print("juliahhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhh $tenantId");
       return ResponseModel(
           ResponseType.success, userCredential.user?.uid.toString());
     } on FirebaseAuthException catch (e) {

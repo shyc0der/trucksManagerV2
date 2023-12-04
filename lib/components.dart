@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:truck_manager/pages/color.dart';
 
 class KnackBar extends StatefulWidget{
   const KnackBar({super.key, required this.title, this.colors, required this.size, this.onPressed});
@@ -113,4 +114,71 @@ class ItemListTile extends StatelessWidget {
     );
   }
 }
+class AppDropdownInput<T> extends StatelessWidget {
+  final String hintText;
+  final List<T> options;
+  final T? value; // Changed to nullable
+  final String Function(T) getLabel;
+  final void Function(T?) onChanged;
+
+  const AppDropdownInput({
+    super.key,
+    required this.hintText,
+    required this.options,
+    required this.getLabel,
+    this.value, // Removed the required keyword
+    required this.onChanged,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return FormField<T>(
+      builder: (FormFieldState<T> state) {
+        return InputDecorator(
+          decoration: InputDecoration(
+            fillColor: Colors.white,
+            hoverColor: Colors.white,
+            focusColor: Colors.white,
+            contentPadding: const EdgeInsets.symmetric(
+                horizontal: 20.0, vertical: 15.0),
+            hintText: hintText,
+            border:
+                     OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(8),
+                  borderSide: BorderSide(color: Colors.grey.shade400, width: .9)
+                ),
+                enabledBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(8),
+                  borderSide: BorderSide(color: Colors.grey.shade400, width: .4)
+                ),
+                focusedBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(8),
+                  borderSide:  BorderSide(color: HexColor("#00877D"), width: 1)
+                ),
+          
+                
+                   ),
+          isEmpty: value == null || value == '',
+          child: DropdownButtonHideUnderline(
+            child: DropdownButton<T>(
+              value: value, // Nullable value is now accepted
+              isDense: true,
+              onChanged: onChanged,
+              dropdownColor: Colors.white,
+              focusColor: Colors.white,
+              
+              items: options.map((T value) {
+                return DropdownMenuItem<T>(
+                  value: value,
+                  child: Text(getLabel(value)),
+                );
+              }).toList(),
+            ),
+          ),
+        );
+      },
+    );
+  }
+}
+
       

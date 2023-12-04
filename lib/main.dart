@@ -13,6 +13,7 @@ void main() async {
   await Firebase.initializeApp(
     options: const FirebaseOptions(
       apiKey: "AIzaSyB4M39W4hnZh7HRzJu65QXSvk-7Bt-rPCA",
+      authDomain: "http://trucks-c05a8.firebaseapp.com",
       appId: "1:834602052606:android:3ed2f2a40feeb21c682eaf",
       messagingSenderId: "834602052606", 
       projectId: "trucks-c05a8",

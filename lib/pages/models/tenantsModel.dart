@@ -43,7 +43,7 @@ class TenantsModel extends Model {
   @override
   bool operator ==(Object other) {
     if (other is TenantsModel) {
-      return id == other.id && name == other.name && database == other.database;
+      return id == other.id && name == other.name && database == other.database && tenantId == other.tenantId;
     }
     return false;
   }

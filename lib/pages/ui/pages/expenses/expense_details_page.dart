@@ -161,9 +161,7 @@ class _ExpenseDetailsPageState extends State<ExpenseDetailsPage> {
                     future: _orderModules
                         .fetchOrderByJobId(widget.expensesModel.jobId ?? ""),
                     builder: (context, snapshot) {
-                      print(widget.expensesModel.jobId);
-                      print(snapshot.error);
-                      if (snapshot.hasError) {
+                     if (snapshot.hasError) {
                         return const Text('Error : JOB Not Found}');
                       }
                       if (snapshot.hasData) {

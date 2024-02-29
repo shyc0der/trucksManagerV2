@@ -45,6 +45,7 @@ Widget InputField(String label, TextEditingController controller, bool error, {
   Function(String val)? onChanged,
   void Function()? toggleObsecure,
    bool isNumbers = false, 
+   bool  hasLabel = false, 
    bool invalid = false, 
    bool isObsecured = false, 
    bool isHidden = false, int maxLines = 1,
@@ -84,7 +85,8 @@ Widget InputField(String label, TextEditingController controller, bool error, {
 
                   )) : Text(""),
 
-              hintText: label,
+              hintText:  label,
+              labelText:  label  ,
 
               hintStyle: TextStyle(color: Colors.grey.shade400, fontSize: 12.5),
 

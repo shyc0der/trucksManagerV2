@@ -11,6 +11,7 @@ import 'package:intl/intl.dart';
 
 
 import 'package:printing/printing.dart';
+import 'package:truck_manager/pages/color.dart';
 
 
 import 'package:truck_manager/pages/modules/job_module.dart';
@@ -28,7 +29,7 @@ import 'package:truck_manager/pages/ui/pages/jobs/jobs_details_page.dart';
 import 'package:truck_manager/pages/ui/widgets/order_details_widget.dart';
 
 
-import 'package:pdf_reports_generator/pdf_reports_generator.dart' as pw;
+
 
 
 import '../../../models/jobs_model.dart';
@@ -105,291 +106,185 @@ class OrderDetailPageState extends State<OrderDetailPage> {
       appBar: AppBar(
 
         centerTitle: true,
+        backgroundColor: HexColor("#00877D"),
 
-        title: const Text('Order Details'),
+        title: const Text('Order Details',style:  TextStyle(color: Colors.white)),
 
       ),
 
-      body: SingleChildScrollView(
-
-        child: Column(
-
-          children: [
-
-            // order detail
-
-
-            OrderDetailWidget(
-              orderNo: widget.order.orderNo ?? "",
-
-              title: widget.order.title ?? '',
-
-              amount:
-
-                  'Ksh. ${doubleFormat.format((widget.order.amount ?? 0).ceilToDouble())}',
-
-              date: widget.order.dateCreated.toString().substring(0, 16),
-
-              orderState: orderState,
-
-              update: () async {
-
-                OrderWidgateState? state = await changeDialogState();
-              
-
-
-                if (state != null) {
-
-                  if (state == OrderWidgateState.Declined) {
-
-                    await _orderModules.updateOrderState(
-
-                        widget.order.id!, state);
-
-
-                    setState(() {
-
-                      _orderState = state.value;
-
-
-                      orderState = state;
-
-                    });
-
-                  }
-                   else {
-    // Handle the case where state is null (dialog was closed without setting a result)
-    print('Dialog closed without setting a result.');
-  }
-
-
-                  List<String>? _res;
-
-
-                  if (state == OrderWidgateState.Approved) {
-
-                    _res = await Get.dialog(
-
-                        const Dialog(child: DriverVehicleGetDetails()));
-
-
-                    if (_res != null && _res.isNotEmpty) {
-
-                      print(
-
-                        _res[1],
-
-                      );
-
-
-                      print(_res[0]);
-
-
-                      final job = JobModel(
-
-                          createdBy: _userModule.currentUser.value.id,
-
-                          customerId: widget.order.customerId,
-
-                          vehicleId: _res[1],
-
-                          driverId: _res[0],
-
-                          orderNo: widget.order.orderNo,
-
-                          tenantId: _userModule.currentUser.value.tenantId,
-
-                          lpoNumber: _res[2],
-
-                          orderId: widget.order.id,
-
-                          jobState: OrderWidgateState.Pending);
-
-
-                      await _jobModule.addJob(job);
-
-
-                      await _orderModules.updateOrder(
-
-                          widget.order.id ?? '', {'userId': _res[0]});
-
-
-                      await _orderModules.updateOrderState(
-
-                          widget.order.id!, state);
-
-
-                      setState(() {
-
-                        _orderState = state.value;
-
-
-                        orderState = state;
-
-                      });
-
-                    }
-
-                  }
-
-                }
-
-              },
-
-              onCancel: () {
-
-                Navigator.pop(context);
-
-              },
-
-              onClose: () async {
-
-                JobModel? job = await _jobModule.fetchJobsByOrderId(
-
-                    widget.order.id ?? '',
-                    _userModule.currentUser.value.tenantId!);
-
-
-                if (job != null) {
-
-                  await Navigator.push(
-
-                      context,
-
-                      MaterialPageRoute(
-
-                          builder: (context) => JobDetailPage(job)));
-
-                }
-
-              },
-
-              goToJob: () async {
-
-                JobModel? job = await _jobModule.fetchJobsByOrderId(
-
-                    widget.order.id ?? '',
-                    _userModule.currentUser.value.tenantId!);
-
-
-                if (job != null) {
-
-                  await Navigator.push(
-
-                      context,
-
-                      MaterialPageRoute(
-
-                          builder: (context) => JobDetailPage(job)));
-
-                } else {
-
-                  Get.dialog(const Dialog());
-
-                }
-
-              },
-
-            ),
-
-
-            const SizedBox(
-
-              height: 20,
-
-            ),
-
-
-            Padding(
-
-              padding: const EdgeInsets.all(8.0),
-
-              child: Row(
-
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-
-                children: [
-
-                  // quotation
-
-
-                  if (!(orderState == OrderWidgateState.Declined ||
-
-                      orderState == OrderWidgateState.Rejected ||
-
-                      orderState == OrderWidgateState.Pending))
-
-                    ElevatedButton(
-
-                      onPressed: () => Navigator.push(
-
-                          context,
-
-                          MaterialPageRoute(
-
-                              builder: (context) => _pdfGenerator(
-
-                                    isQuotation: true,
-
-                                  ))),
-
-                      child: const Text('Quotation'),
-
-                    ),
-
-
-                  // invoice
-
-
-                  if (orderState == OrderWidgateState.Closed)
-
-                    ElevatedButton(
-
-                      onPressed: () => Navigator.push(
-
-                          context,
-
-                          MaterialPageRoute(
-
-                              builder: (context) => _pdfGenerator(
-
-                                    isInvoice: true,
-
-                                  ))),
-
-                      child: const Text('Invoice'),
-
-                    ),
-
-
-                  if (orderState == OrderWidgateState.Closed)
-
-                    ElevatedButton(
-
-                      onPressed: () => Navigator.push(
-
-                          context,
-
-                          MaterialPageRoute(
-
-                              builder: (context) =>
-
-                                  _pdfGenerator(isDelNote: true))),
-
-                      child: const Text('Delivery Note'),
-
-                    ),
-
-                ],
-
-              ),
-
-            ),
-
-          ],
-
-        ),
-
+      body: 
+      OrderDetailWidget(
+        orderId: widget.order.id ?? "",
+        orderNo: widget.order.orderNo ?? "",
+      
+        title: widget.order.title ?? '',
+      
+        amount:
+      
+            'Ksh. ${doubleFormat.format((widget.order.amount ?? 0).ceilToDouble())}',
+      
+        date: widget.order.dateCreated.toString().substring(0, 16),
+      
+        orderState: orderState,
+      
+        update: () async {
+      
+          OrderWidgateState? state = await changeDialogState();
+        
+      
+      
+          if (state != null) {
+      
+            if (state == OrderWidgateState.Declined) {
+      
+              await _orderModules.updateOrderState(
+      
+                  widget.order.id!, state);
+      
+      
+              setState(() {
+      
+                _orderState = state.value;
+      
+      
+                orderState = state;
+      
+              });
+      
+            }
+             else {
+          // Handle the case where state is null (dialog was closed without setting a result)
+          print('Dialog closed without setting a result.');
+        }
+      
+      
+            List<String>? _res;
+      
+      
+            if (state == OrderWidgateState.Approved) {
+      
+              _res = await Get.dialog(
+      
+                  const Dialog(child: DriverVehicleGetDetails()));
+      
+      
+              if (_res != null && _res.isNotEmpty) {
+      
+                print(
+      
+                  _res[1],
+      
+                );
+      
+      
+                print(_res[0]);
+      
+      
+                final job = JobModel(
+      
+                    createdBy: _userModule.currentUser.value.id,
+      
+                    customerId: widget.order.customerId,
+      
+                    vehicleId: _res[1],
+      
+                    driverId: _res[0],
+      
+                    orderNo: widget.order.orderNo,
+      
+                    tenantId: _userModule.currentUser.value.tenantId,
+      
+                    lpoNumber: _res[2],
+      
+                    orderId: widget.order.id,
+      
+                    jobState: OrderWidgateState.Pending);
+      
+      
+                await _jobModule.addJob(job);
+      
+      
+                await _orderModules.updateOrder(
+      
+                    widget.order.id ?? '', {'userId': _res[0]});
+      
+      
+                await _orderModules.updateOrderState(
+      
+                    widget.order.id!, state);
+      
+      
+                setState(() {
+      
+                  _orderState = state.value;
+      
+      
+                  orderState = state;
+      
+                });
+      
+              }
+      
+            }
+      
+          }
+      
+        },
+      
+        onCancel: () {
+      
+          Navigator.pop(context);
+      
+        },
+      
+        onClose: () async {
+      
+          JobModel? job = await _jobModule.fetchJobsByOrderId(
+      
+              widget.order.id ?? '',
+              _userModule.currentUser.value.tenantId!);
+      
+      
+          if (job != null) {
+      
+            await Navigator.push(
+      
+                context,
+      
+                MaterialPageRoute(
+      
+                    builder: (context) => JobDetailPage(job)));
+      
+          }
+      
+        },
+      
+        goToJob: () async {
+      
+          JobModel? job = await _jobModule.fetchJobsByOrderId(
+      
+              widget.order.id ?? '',
+              _userModule.currentUser.value.tenantId!);
+      
+      
+          if (job != null) {
+      
+            await Navigator.push(
+      
+                context,
+      
+                MaterialPageRoute(
+      
+                    builder: (context) => JobDetailPage(job)));
+      
+          } else {
+      
+            Get.dialog(const Dialog());
+      
+          }
+      
+        },
+      
       ),
 
     );
@@ -397,48 +292,6 @@ class OrderDetailPageState extends State<OrderDetailPage> {
   }
 
 
-  Widget _pdfGenerator({bool? isInvoice, bool? isDelNote, bool? isQuotation}) {
-
-    final _pdf = InvoiceQuotationModule.fromOrderId(
-
-      widget.order.id,
-
-      isDelNote,
-
-      isInvoice,
-
-      isQuotation,
-
-    );
-
-
-    return PdfPreview(
-
-      canDebug: false,
-
-      pageFormats: const {
-
-        'A4': pw.PdfPageFormat.a4,
-
-        'Letter': pw.PdfPageFormat.letter,
-
-        'A3': pw.PdfPageFormat.a3,
-
-        'A5': pw.PdfPageFormat.a5,
-
-        'A6': pw.PdfPageFormat.a6,
-
-      },
-
-      build: (pageFormat) async {
-
-        return (await _pdf.generatePdf(pageFormat: pageFormat)).save();
-
-      },
-
-    );
-
-  }
-
+ 
 }
 

@@ -75,7 +75,7 @@ class _CustomersListPageState extends State<CustomersListPage>
       body: 
        StreamBuilder<List<UserModel?>>(
           
-                  stream: userModule.fetchUsersWhere(isCustomer, isDriver),
+                  stream: userModule.fetchUsersWhere(isCustomer, isDriver,userModule.currentUser.value.tenantId),
           
                   builder: (context, snapshot) {
           

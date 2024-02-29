@@ -34,9 +34,9 @@ class UsersListPage extends StatelessWidget {
 
     this.isDriver, {
 
-    Key? key,
+    super.key,
 
-  }) : super(key: key);
+  });
 
   //final Stream<List<UserModel?>> users;
 
@@ -153,7 +153,7 @@ class UsersListPage extends StatelessWidget {
 
           child: StreamBuilder<List<UserModel?>>(
 
-              stream: userModule.fetchUsersWhere(isCustomer, isDriver),
+              stream: userModule.fetchUsersWhere(isCustomer, isDriver,userModule.currentUser.value.tenantId),
 
               builder: (context, snapshot) {
 

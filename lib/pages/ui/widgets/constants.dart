@@ -22,9 +22,9 @@ class Constants {
   }
 
   String? fetchOrder(String? orderId) {
-   // print(orderId);
+   
     var res = orderModules.getOrderByJobId(orderId!);
-    //print(res?.asMap());
+    
     return res?.title;
   }
 }

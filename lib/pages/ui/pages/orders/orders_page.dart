@@ -178,12 +178,13 @@ class _OrdersPageState extends State<OrdersPage2> {
 
           body: StreamBuilder<List<OrderModel>>(
 
+
               stream: _orderModules.fetchOrderByState(
 
                   widget.state, _userModule.currentUser.value, _userModule.currentUser.value.tenantId!),
 
               builder: (context, snapshot) {
-
+             
                 if (snapshot.hasError) {
 
                   return Text('Error = ${snapshot.error}');

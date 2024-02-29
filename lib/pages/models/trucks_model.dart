@@ -62,8 +62,7 @@ class TrucksModel extends Model {
 
     var job = (await fetchJobsByTruck(tenantId,dateTimeRange))
         .fold<double>(0.0, (previousValue, element) => previousValue + (200.0));
-    //print(expenses);
-    return [job, expenses];
+        return [job, expenses];
   }
 
   Map<String, dynamic> asMap() {

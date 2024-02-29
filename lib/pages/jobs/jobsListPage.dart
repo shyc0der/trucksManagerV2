@@ -455,8 +455,7 @@ Obx(() => StreamBuilder<List<OrderModel>>(
                           child: ListView.builder(
                             itemCount: displayJobs.length,
                             itemBuilder: (_, index) {
-                              print(displayJobs[index].asMap());
-                              return FutureBuilder<OrderModel>(
+                               return FutureBuilder<OrderModel>(
                                 future: orderModules.fetchFutureOrderById(displayJobs[index].orderId ?? ''),
                                 builder: (context, snaps) {
                                   return Padding(

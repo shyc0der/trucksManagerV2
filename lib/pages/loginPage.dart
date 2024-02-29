@@ -389,7 +389,8 @@ class _LoginPageState extends State<LoginPage> {
 
             child: ElevatedButton(
 
-              style: ElevatedButton.styleFrom(
+              style:
+               ElevatedButton.styleFrom(
 
                   backgroundColor: HexColor("#00877D"),
 

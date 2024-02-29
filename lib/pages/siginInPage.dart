@@ -509,7 +509,6 @@ class _SignInPageState extends State<SignInPage> {
                             tenantsModel?.tenantId);
 
 
-                        print(res.body);
 
 
                         if (res.status == ResponseType.success) {
@@ -955,10 +954,6 @@ class _SignInPageState2 extends State<SignInPage2> {
 
                       widget.user?.lastName = lastNameController.text;
 
-
-                      print(errorExist);
-
-
                       if (firstNameController.text.isEmpty) {
 
                         errorExist = true;
@@ -1367,15 +1362,11 @@ class _SignInPageState3 extends State<SignInPage3> {
 
                       if (!errorExist) {
 
-                        print(widget.tenantsModel?.database);
-
-
-                        var ter = await userModule.createUser(
+                   await userModule.createUser(
 
                             widget.user!.id!, widget.user!);
 
 
-                        print(ter.body);
 
 
                         Navigator.push(

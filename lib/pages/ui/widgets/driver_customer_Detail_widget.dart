@@ -30,8 +30,6 @@ final UserModule userModule = Get.find<UserModule>();
 
   @override
   void initState() {
-    //print(hasDriver);
-
     userModule.fetchUsersName(userModule.currentUser.value.tenantId!).then((value) {
       setState(() {
         if (value.isNotEmpty) {
@@ -55,9 +53,7 @@ final UserModule userModule = Get.find<UserModule>();
 
   @override
   Widget build(BuildContext context) {
-    // print(hasDriver);
-
-    return Padding(
+      return Padding(
       padding: const EdgeInsets.all(12.0),
       child: Column(
         mainAxisSize: MainAxisSize.min,

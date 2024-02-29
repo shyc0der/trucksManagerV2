@@ -35,9 +35,7 @@ class OrderModules extends GetxController {
     // fetch jobs, drivers & truck
     //fetchOrders(user, tenantId);
     fetchOrderByState("All",user, tenantId);
-    print(orders);
-    print(user.asMap());
-    print("hhhhhhhhhhhhhh");
+    
   }
 
   //fetch orders
@@ -191,8 +189,6 @@ class OrderModules extends GetxController {
         dailyTotals[dayOfWeek] =
             ((dailyTotals[dayOfWeek] ?? 0) + (order.amount ?? 0));
 
-        print(dailyTotals);
-        print("hjjjjjjaaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
       }
 
       // Update the total for the corresponding day
@@ -205,8 +201,7 @@ class OrderModules extends GetxController {
 
   OrderModel? getOrderByJobId(String? _orderId) {
     final _orders = orders.where((order) => order.id == _orderId).toList();
-    print("jjj");
-    print(orders);
+    
     if (_orders.isNotEmpty) {
       return _orders.first;
     }

@@ -40,8 +40,10 @@ class UserModule extends GetxController {
     // isSuperUser.value = user.userRole != UserWidgetType.customer;
   }
 
-  Stream<List<UserModel>> fetchUsers() {
-    return userModel.fetchStreamsData().map<List<UserModel>>((streams) {
+  Stream<List<UserModel>> fetchUsers(String tenantId) {
+    return userModel.fetchStreamsDataWhere(
+      'tenantId', isEqualTo: tenantId,
+    ).map<List<UserModel>>((streams) {
       var _users = streams.docs
           .map<UserModel>(
               (doc) => UserModel.fromMap({'id': doc.id, ...doc.data() as Map}))
@@ -53,7 +55,7 @@ class UserModule extends GetxController {
   }
 
   bool isCustomer = false;
-  Stream<List<UserModel>> fetchUsersWhere(isCustomer, isDriver) {
+  Stream<List<UserModel>> fetchUsersWhere(isCustomer, isDriver,String ? tenantId) {
    
     if (isCustomer == true) {
       return userModel
@@ -62,6 +64,7 @@ class UserModule extends GetxController {
         var _users = streams.docs
             .map<UserModel>((doc) =>
                 UserModel.fromMap({'id': doc.id, ...doc.data() as Map}))
+                .where((element) => element.tenantId == tenantId)
             .toList();
         users.clear();
         users.addAll(_users);
@@ -75,6 +78,7 @@ class UserModule extends GetxController {
         var _users = streams.docs
             .map<UserModel>((doc) =>
                 UserModel.fromMap({'id': doc.id, ...doc.data() as Map}))
+                .where((element) => element.tenantId == tenantId)
             .toList();
         users.clear();
         users.addAll(_users);
@@ -88,6 +92,7 @@ class UserModule extends GetxController {
         var _users = streams.docs
             .map<UserModel>((doc) =>
                 UserModel.fromMap({'id': doc.id, ...doc.data() as Map}))
+                .where((element) => element.tenantId == tenantId)
             .toList();
         users.clear();
         users.addAll(_users);
@@ -96,13 +101,14 @@ class UserModule extends GetxController {
     }
   }
 
-  Stream<List<UserModel>> fetchDrivers() {
+  Stream<List<UserModel>> fetchDrivers(String tenantId) {
     return userModel
         .fetchStreamsDataWhere('role', isEqualTo: 'driver')
         .map<List<UserModel>>((streams) {
       var _users = streams.docs
           .map<UserModel>(
               (doc) => UserModel.fromMap({'id': doc.id, ...doc.data() as Map}))
+              .where((element) => element.tenantId == tenantId)
           .toList();
       users.clear();
       users.addAll(_users);
@@ -110,11 +116,12 @@ class UserModule extends GetxController {
     });
   }
 
-  Future<List<UserModel>> fetchListUsers() async {
+  Future<List<UserModel>> fetchListUsers(String tenantId) async {
     final user = await userModel.fetchData();
 
     final useList = user
         .map((doc) => UserModel.fromMap({'id': doc.id, ...doc.data()}))
+        .where((element) => element.tenantId == tenantId)
         .toList();
 
     return useList;
@@ -130,10 +137,13 @@ class UserModule extends GetxController {
   //fetch users Name
   Future<Map<String, dynamic>> fetchUsersName(String tenantId) async {
     final Map<String, dynamic> _map = {};
-    final _users = await userModel.fetchWhereDatas("role", "tenantId",
-        isEqualTo: 'driver', isEqualTo2: tenantId);
+    var _users = await userModel.fetchWhereData("role",
+        isEqualTo: 'driver');
+               
     for (var user in _users) {
+      
       if (user.id != "c9AP9R06ugY54uHMmhscoTarpix2") {
+        
         _map.addAll({user.id: user.data()});
       }
     }
@@ -148,6 +158,7 @@ class UserModule extends GetxController {
       final _customers =
           await userModel.fetchWhereData('role', isEqualTo: 'customer');
       for (var customer in _customers) {
+        print(customer.data());
         _map.addAll({customer.id: customer.data()['email']});
       }
       return _map;
@@ -178,9 +189,7 @@ class UserModule extends GetxController {
     }
     final _res = await FirebaseUserModule.createUser(
         user.email.toString(), password, user.tenantId.toString());
-    print(_res.body);
-    print(user.asMap());
-    print("jjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjj");
+    
     if (_res.status == ResponseType.success) {
       // save user
       userModel.saveOnlineWithId(_res.body.toString(), user.asMap());

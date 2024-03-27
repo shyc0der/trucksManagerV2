@@ -123,10 +123,10 @@ Flexible(flex: 4,child: Container(),),
               minimumSize: const Size(700, 50)
             ),
             onPressed: (){
-               Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => const SignInPage()),
-                  );
+              //  Navigator.push(
+              //       context,
+              //       MaterialPageRoute(builder: (context) => const SignInPage()),
+              //     );
             },
             child: const Text("Create an account" ,style: 
              TextStyle(color: Colors.white,

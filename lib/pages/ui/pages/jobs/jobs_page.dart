@@ -28,7 +28,7 @@ class _JobsPageState extends State<JobsPage> {
   NumberFormat doubleFormat = NumberFormat.decimalPattern('en_us');
 
   Future<bool> _dismissDialog(JobModel jobModel) async {
-    bool? delete = await dismissWidget('Job with Order NO.${jobModel.orderNo}');
+    bool? delete = await dismissWidget(' with Order NO.${jobModel.orderNo}','Job');
 
     if (delete == true) {
       // delete from server
@@ -133,7 +133,10 @@ class _JobsPageState extends State<JobsPage> {
                             builder: (_) => JobDetailPage(displayJobs[index])));
                       },
                       onDoubleTap: () async {
-                        await _dismissDialog(snapshot.data![index]);
+                         userModule.currentUser.value.role == "admin" ?
+                                        await _dismissDialog(snapshot.data![index]) :
+                                        ();
+                        
                       },
                     );
                   },

@@ -116,7 +116,7 @@ extension UserWidgetTypeExt on UserWidgetType{
   String get lable {
     switch (this) {
       case UserWidgetType.admin:
-        return 'Admin';
+        return 'admin';
       case UserWidgetType.manager:
         return 'manager';
       case UserWidgetType.driver:

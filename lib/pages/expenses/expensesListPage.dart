@@ -171,7 +171,7 @@ class _ExpensesListPageState extends State<ExpensesListPage>
 
    Future<bool> _dismissDialog(ExpenseModel expenseModel) async {
 
-    bool? delete = await dismissWidget('${expenseModel.expenseType}');
+    bool? delete = await dismissWidget('${expenseModel.expenseType}','Expense');
 
 
     if (delete == true) {

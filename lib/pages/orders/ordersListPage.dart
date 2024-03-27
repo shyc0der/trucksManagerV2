@@ -31,7 +31,7 @@ import 'package:truck_manager/pages/modules/order_modules.dart';
 import 'package:truck_manager/pages/modules/userModules.dart';
 
 
-import 'package:truck_manager/pages/ui/pages/orders/add_order_widget.dart';
+import 'package:truck_manager/pages/orders/add_order_widget.dart';
 
 
 import 'package:truck_manager/pages/ui/pages/orders/orders_details_page.dart';
@@ -237,7 +237,7 @@ class _OrdersListPageState extends State<OrdersListPage>
     String? jobId;
 
 
-    bool? delete = await dismissWidget('${orderModel.orderNo}');
+    bool? delete = await dismissWidget('${orderModel.orderNo}','Order');
 
 
     if (delete == true) {

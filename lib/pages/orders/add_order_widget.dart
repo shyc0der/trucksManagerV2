@@ -8,8 +8,8 @@ import 'package:truck_manager/pages/modules/jobTypesModules.dart';
 import 'package:truck_manager/pages/modules/userModules.dart';
 import 'package:truck_manager/pages/ui/widgets/order_details_widget.dart';
 
-import '../../../modules/order_modules.dart';
-import '../../widgets/input_fields.dart';
+import '../modules/order_modules.dart';
+import '../ui/widgets/input_fields.dart';
 
 class AddOrderWidget extends StatefulWidget {
   const AddOrderWidget({this.order, this.isEditing = false, key})
@@ -92,7 +92,7 @@ final  Map<String, dynamic> _driver = {'None': 'None'};
       setState(() {
         for (String userId in value.keys) {
           _driver[userId] =
-              '${value[userId]['firstName']} ${value[userId]['middleName']} ${value[userId]['lastName']}';
+              '${value[userId]['firstName']} ${value[userId]['lastName']}';
         }
         // if(_driver.isNotEmpty){
         //   _userName=_driver.keys.first;
@@ -310,7 +310,7 @@ final  Map<String, dynamic> _driver = {'None': 'None'};
               children: [
                const Padding(
                   padding:  EdgeInsets.all(8),
-                  child: SizedBox(width: 80, child: Text("Customer's Email")),
+                  child: SizedBox(width: 80, child: Text("Customer's Phone Number")),
                 ),
                 Expanded(
                     child: Container(

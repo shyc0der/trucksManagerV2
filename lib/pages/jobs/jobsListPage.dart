@@ -165,7 +165,7 @@ Constants constants = Constants();
   }
   String state = "All";
    Future<bool> _dismissDialog(JobModel jobModel) async {
-    bool? delete = await dismissWidget('Job with Order NO.${jobModel.orderNo}');
+    bool? delete = await dismissWidget('with Order NO.${jobModel.orderNo}','Job');
 
     if (delete == true) {
       // delete from server

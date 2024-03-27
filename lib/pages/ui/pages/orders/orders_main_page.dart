@@ -7,7 +7,7 @@ import 'package:truck_manager/pages/ui/pages/orders/orders_page.dart';
 import 'package:truck_manager/pages/ui/widgets/order_details_widget.dart';
 import '../../../models/order_model.dart';
 import '../../widgets/item_card_widget.dart';
-import 'add_order_widget.dart';
+import '../../../orders/add_order_widget.dart';
 
 class OrdersMainPage extends StatefulWidget {
   const OrdersMainPage({Key? key}) : super(key: key);

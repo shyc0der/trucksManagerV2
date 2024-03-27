@@ -24,7 +24,7 @@ class _JobTypesPageState extends State<JobTypesPage> {
 
 
   Future<bool> _dismissDialog(JobType job) async {
-    bool? delete = await dismissWidget('${job.name}');
+    bool? delete = await dismissWidget('${job.name}','Job Type');
     bool shouldDelete = delete == true;
    
     
@@ -32,23 +32,25 @@ class _JobTypesPageState extends State<JobTypesPage> {
     var ifExists = await _jobTypeModule.checkIfJobTypeExists(
         job.name ?? '', userModule.currentUser.value.tenantId!);
 
-    if (ifExists == true) {
+   
+
+    if (shouldDelete) {
+      //if Job Type does exists one cannnot delete an job Type that is already tied to an job
+      if (ifExists == true) {
       shouldDelete = false;
       ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
         content:
             Text("Job Type Can Not Be Deleted Since Its Already Used!"),
       ));
     }
-
-    if (shouldDelete) {
-      //if Job Type does exists one cannnot delete an job Type that is already tied to an job
-
+    else {
       await _jobTypeModule.deleteJobTpe(job.id ?? '');
       ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
         content: Text("Job Type Deleted!"),
       ));
 
       // delete from server
+    }
     }
 
     return shouldDelete;
@@ -133,9 +135,11 @@ class _JobTypesPageState extends State<JobTypesPage> {
                     itemBuilder: (BuildContext context, int index) {
                       var jobType = snapshot.data![index]!;
                       return GestureDetector(
-                        onDoubleTap: () async {
+                        onLongPress: () async {
                           // dismissDialog
-                           _dismissDialog(jobType);
+                           userModule.currentUser.value.role == "admin" ?
+                                        await _dismissDialog(jobType) :
+                                        ();
                         },
                         key: ValueKey('$index-${jobType.name}'),
                         child: Padding(

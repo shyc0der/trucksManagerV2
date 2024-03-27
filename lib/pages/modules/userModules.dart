@@ -47,6 +47,7 @@ class UserModule extends GetxController {
       var _users = streams.docs
           .map<UserModel>(
               (doc) => UserModel.fromMap({'id': doc.id, ...doc.data() as Map}))
+              .where((element) => element.isDeleted == false)
           .toList();
       users.clear();
       users.addAll(_users);
@@ -79,6 +80,7 @@ class UserModule extends GetxController {
             .map<UserModel>((doc) =>
                 UserModel.fromMap({'id': doc.id, ...doc.data() as Map}))
                 .where((element) => element.tenantId == tenantId)
+                .where((element) => element.isDeleted == false)
             .toList();
         users.clear();
         users.addAll(_users);
@@ -93,6 +95,7 @@ class UserModule extends GetxController {
             .map<UserModel>((doc) =>
                 UserModel.fromMap({'id': doc.id, ...doc.data() as Map}))
                 .where((element) => element.tenantId == tenantId)
+                .where((element) => element.isDeleted == false)
             .toList();
         users.clear();
         users.addAll(_users);
@@ -109,6 +112,7 @@ class UserModule extends GetxController {
           .map<UserModel>(
               (doc) => UserModel.fromMap({'id': doc.id, ...doc.data() as Map}))
               .where((element) => element.tenantId == tenantId)
+              .where((element) => element.isDeleted == false)
           .toList();
       users.clear();
       users.addAll(_users);
@@ -122,6 +126,7 @@ class UserModule extends GetxController {
     final useList = user
         .map((doc) => UserModel.fromMap({'id': doc.id, ...doc.data()}))
         .where((element) => element.tenantId == tenantId)
+        .where((element) => element.isDeleted == false)
         .toList();
 
     return useList;
@@ -142,7 +147,7 @@ class UserModule extends GetxController {
                
     for (var user in _users) {
       
-      if (user.id != "c9AP9R06ugY54uHMmhscoTarpix2") {
+      if (user.id != "c9AP9R06ugY54uHMmhscoTarpix2" || user.data()["isDeleted"] == false ) {
         
         _map.addAll({user.id: user.data()});
       }
@@ -158,14 +163,15 @@ class UserModule extends GetxController {
       final _customers =
           await userModel.fetchWhereData('role', isEqualTo: 'customer');
       for (var customer in _customers) {
-        print(customer.data());
-        _map.addAll({customer.id: customer.data()['email']});
+       
+        _map.addAll({customer.id: "${customer.data()['firstName']} ${customer.data()['lastName']} \n ${customer.data()['phoneNo']}"});
       }
       return _map;
     } else {
-      final _customers = await userModel.fetchData();
+      final _customers = await userModel.fetchWhereData('role', isNotEqualTo: 'customer');
       for (var customer in _customers) {
-        _map.addAll({customer.id: customer.data()['email']});
+        _map.addAll({customer.id: "${customer.data()['firstName']} ${customer.data()['lastName']} \n ${customer.data()['phoneNo']}"})
+                ;
       }
       return _map;
     }
@@ -226,5 +232,15 @@ class UserModule extends GetxController {
       String id, Map<String, dynamic> map) async {
     await userModel.updateOnline(id, map);
     return ResponseModel(ResponseType.success, 'Customer Updated');
+  }
+   Future<ResponseModel> deleteCustomer(
+      String id) async {
+    await userModel.deleteOnline(id);
+    return ResponseModel(ResponseType.success, 'Customer Deleted');
+  }
+   Future<ResponseModel> deleteUser(
+      String id,Map<String, dynamic> map) async {
+   await userModel.updateOnline(id,map);
+    return ResponseModel(ResponseType.success, 'User Deleted');
   }
 }

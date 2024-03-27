@@ -5,10 +5,12 @@ import 'package:get/get.dart';
 import 'package:truck_manager/components.dart';
 
 import 'package:truck_manager/pages/models/userModel.dart';
+import 'package:truck_manager/pages/modules/order_modules.dart';
 
 import 'package:truck_manager/pages/modules/userModules.dart';
 import 'package:truck_manager/pages/ui/pages/users/addCustomer.dart';
 import 'package:truck_manager/pages/ui/pages/users/add_user_widget.dart';
+import 'package:truck_manager/pages/ui/widgets/dismiss_widget.dart';
 
 
 class CustomersListPage extends StatefulWidget {
@@ -28,6 +30,7 @@ class _CustomersListPageState extends State<CustomersListPage>
     with SingleTickerProviderStateMixin {
   late final TextEditingController _searchTextController;
   UserModule userModule = Get.find<UserModule>();
+  OrderModules orderModules = Get.find<OrderModules>();
    bool isCustomer = true;
 
   bool isDriver = false;
@@ -42,6 +45,37 @@ class _CustomersListPageState extends State<CustomersListPage>
 
   }
 
+ Future<bool> _dismissDialog(UserModel user) async {
+    bool? delete = await dismissWidget('${user.firstName}','Customer');
+    bool shouldDelete = delete == true;
+   
+    
+
+    var ifExists = await orderModules.checkIFOrderHasCustomer(
+        user.id ?? '', userModule.currentUser.value.tenantId!);
+
+    
+
+    if (shouldDelete) {
+      //if Expense Type does exists one cannnot delete an expense Type that is already tied to an expense
+if (ifExists == true) {
+      shouldDelete = false;
+      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+        content:
+            Text("Customer Can Not Be Deleted Since They Have An Order!"),
+      ));
+    }
+    else {
+      await userModule.deleteCustomer(user.id ?? '');
+      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+        content: Text("Customer  Deleted!"),
+      ));
+    }
+      // delete from server
+    }
+
+    return shouldDelete;
+  }
 
   @override
 
@@ -258,40 +292,47 @@ class _CustomersListPageState extends State<CustomersListPage>
                             itemBuilder: (_, index) {
                               
                                   
-                              return Padding(
-                                  
-                                padding: const EdgeInsets.symmetric(
-                                    horizontal: 10, vertical: 10),
-                                  
-                                child: ItemListTile(
-                                  title:  '${customers[index]?.firstName ?? ''} ${customers[index]?.lastName ?? ''}',
-                                  description: customers[index]?.phoneNo ?? '',
-                                     onTap: () {
-
-                          Navigator.push(
-
-                              context,
-
-                              MaterialPageRoute(
-
-                                  builder: ((context) => isCustomer == true
-
-                                      ? AddCustomer(
-
-                                          customer: customers[index],
-
-                                          isEditing: true,
-
-                                        )
-
-                                      : AddUserWidget(
-
-                                          user: customers[index], isEditing: true))));
-
-                        },
-                                 
+                              return GestureDetector(
+                                onLongPress: () async {
+                                  userModule.currentUser.value.role == "admin" ?
+                                   await _dismissDialog(snapshot.data![index]!) :
+                                        ();
+                                },
+                                child: Padding(
+                                    
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 10, vertical: 10),
+                                    
+                                  child: ItemListTile(
+                                    title:  '${customers[index]?.firstName ?? ''} ${customers[index]?.lastName ?? ''}',
+                                    description: customers[index]?.phoneNo ?? '',
+                                       onTap: () {
+                                
+                                                          Navigator.push(
+                                
+                                context,
+                                
+                                MaterialPageRoute(
+                                
+                                    builder: ((context) => isCustomer == true
+                                
+                                        ? AddCustomer(
+                                
+                                            customer: customers[index],
+                                
+                                            isEditing: true,
+                                
+                                          )
+                                
+                                        : AddUserWidget(
+                                
+                                            user: customers[index], isEditing: true))));
+                                
+                                                        },
+                                   
+                                  ),
+                                    
                                 ),
-                                  
                               );
                                   
                             },

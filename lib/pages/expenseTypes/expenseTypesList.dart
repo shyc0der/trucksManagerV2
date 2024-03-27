@@ -24,7 +24,7 @@ class _ExpenseTypesPageState extends State<ExpenseTypesPage> {
 
 
   Future<bool> _dismissDialog(ExpenseType expense) async {
-    bool? delete = await dismissWidget('${expense.name}');
+    bool? delete = await dismissWidget('${expense.name}','ExpenseType');
     bool shouldDelete = delete == true;
    
     
@@ -32,22 +32,23 @@ class _ExpenseTypesPageState extends State<ExpenseTypesPage> {
     var ifExists = await _expenseModule.checkIfExpenseTypeExists(
         expense.name ?? '', userModule.currentUser.value.tenantId!);
 
-    if (ifExists == true) {
+    
+
+    if (shouldDelete) {
+      //if Expense Type does exists one cannnot delete an expense Type that is already tied to an expense
+if (ifExists == true) {
       shouldDelete = false;
       ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
         content:
             Text("Expense Type Can Not Be Deleted Since Its Already Used!"),
       ));
     }
-
-    if (shouldDelete) {
-      //if Expense Type does exists one cannnot delete an expense Type that is already tied to an expense
-
+    else {
       await _expenseModule.deleteExpenseTpe(expense.id ?? '');
       ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
         content: Text("Expense Type Deleted!"),
       ));
-
+    }
       // delete from server
     }
 
@@ -133,9 +134,11 @@ class _ExpenseTypesPageState extends State<ExpenseTypesPage> {
                     itemBuilder: (BuildContext context, int index) {
                       var expenseType = snapshot.data![index]!;
                       return GestureDetector(
-                        onDoubleTap: () async {
+                        onLongPress: () async {
                           // dismissDialog
-                           _dismissDialog(expenseType);
+                           userModule.currentUser.value.role == "admin" ?
+                                        await _dismissDialog(expenseType) :
+                                        ();
                         },
                         key: ValueKey('$index-${expenseType.name}'),
                         child: Padding(

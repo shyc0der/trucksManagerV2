@@ -5,7 +5,7 @@ import 'package:truck_manager/pages/models/jobs_model.dart';
 import 'package:truck_manager/pages/modules/job_module.dart';
 import 'package:truck_manager/pages/modules/userModules.dart';
 import 'package:truck_manager/pages/ui/pages/jobs/jobs_page.dart';
-import 'package:truck_manager/pages/ui/pages/orders/add_order_widget.dart';
+import 'package:truck_manager/pages/orders/add_order_widget.dart';
 import 'package:truck_manager/pages/ui/widgets/order_details_widget.dart';
 import '../../../models/order_model.dart';
 import '../../widgets/item_card_widget.dart';

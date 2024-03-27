@@ -62,7 +62,7 @@ class UsersListPage extends StatelessWidget {
 
     bool? _delete =
 
-        await dismissWidget('${userModel.firstName}, ${userModel.lastName}');
+        await dismissWidget('${userModel.firstName}, ${userModel.lastName}','User');
 
 
     if (_delete == true) {
@@ -173,9 +173,11 @@ class UsersListPage extends StatelessWidget {
 
                       GestureDetector(
 
-                        onDoubleTap: () async {
+                        onLongPress: () async {
 
-                          await _dismissDialog(us);
+                        userModule.currentUser.value.role == "admin" ?
+                                        await _dismissDialog(us) :
+                                        ();
 
                         },
 

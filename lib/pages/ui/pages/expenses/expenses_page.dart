@@ -77,7 +77,7 @@ class _ExpensesPageState extends State<ExpensesPage> {
 
   Future<bool> _dismissDialog(ExpenseModel expenseModel) async {
 
-    bool? delete = await dismissWidget('${expenseModel.expenseType}');
+    bool? delete = await dismissWidget('${expenseModel.expenseType}','Expense');
 
 
     if (delete == true) {
@@ -159,8 +159,10 @@ class _ExpensesPageState extends State<ExpensesPage> {
                     expenseState: displayExpenses[index].expensesState,
 
                     onDoubleTap: (() async {
+                       userModule.currentUser.value.role == "admin" ?
+                        await _dismissDialog(snapshot.data![index]) :
+                                        ();
 
-                      await _dismissDialog(snapshot.data![index]);
 
                     }),
 

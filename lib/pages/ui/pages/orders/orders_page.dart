@@ -31,7 +31,7 @@ import '../../../modules/job_module.dart';
 import '../../widgets/dismiss_widget.dart';
 
 
-import 'add_order_widget.dart';
+import '../../../orders/add_order_widget.dart';
 
 
 class OrdersPage2 extends StatefulWidget {
@@ -85,7 +85,7 @@ class _OrdersPageState extends State<OrdersPage2> {
     String? jobId;
 
 
-    bool? delete = await dismissWidget('${orderModel.orderNo}');
+    bool? delete = await dismissWidget('${orderModel.orderNo}','Order');
 
 
     if (delete == true) {
@@ -217,7 +217,9 @@ class _OrdersPageState extends State<OrdersPage2> {
 
                         onDoubleTap: () async {
 
-                          await _dismissDialog(snapshot.data![index]);
+                       _userModule.currentUser.value.role == "admin" ?
+                                        await _dismissDialog(snapshot.data![index]) :
+                                        ();
 
                         },
 

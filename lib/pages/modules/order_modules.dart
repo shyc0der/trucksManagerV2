@@ -326,4 +326,24 @@ class OrderModules extends GetxController {
       return _orders;
     });
   }
+    Future<bool> checkIFOrderHasCustomer(
+      String customerId, String tenantId) async {
+         bool test;
+    var orders = (await _orderModel.fetchWhereData(
+            'customerId',  isEqualTo: customerId, 
+            //orderBy: 'date'
+            )).map<OrderModel>((snapshot) {
+      return OrderModel.from({'id': snapshot.id, ...snapshot.data()});
+    }).where((element) => element.tenantId == tenantId)
+    .toList();
+
+   if (orders == [] || orders.isEmpty) {
+      test = false;
+    } else {
+      test = true;
+    }
+
+    return test;
+  }
 }
+
